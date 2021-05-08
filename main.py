@@ -51,7 +51,12 @@ def movimiento():
         x =  cabeza.xcor()              #Obtiene la coordena X
         cabeza.setx(x + 20)
 
-
+#Conexion con teclado
+window.listen()                         #Está pendiente si se oprime una tecla
+window.onkeypress(arriba,'Up')        #Ejecuta la función arriba() cuando detecta up
+window.onkeypress(abajo,'Down')
+window.onkeypress(izquierda,'Left')
+window.onkeypress(derecha,'Right')
 
 #Ciclo permanente
 while True:

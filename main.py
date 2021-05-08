@@ -41,6 +41,7 @@ texto.write('Puntaje:0     Máximo puntaje: 0', align='center', font=('Courier',
 
 #Cuerpo de la serpiende
 cuerpo = []                             #Una lista que almacena cada segmento
+colores = [(109,160,104),(104,142,160)]
 
 #Funciones
 
@@ -84,9 +85,10 @@ def movimiento():
 def crearSegmento():
     global puntaje
     segmento = turtle.Turtle()
+    turtle.colormode(255)
     segmento.speed(0)
     segmento.shape('square')
-    segmento.color('#8CDD83')
+    segmento.color(random.choice(colores))
     segmento.penup()
     cuerpo.append(segmento)
     puntaje += 1

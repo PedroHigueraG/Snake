@@ -21,3 +21,40 @@ cabeza.penup()                          #Elimina el rastro del objeto
 cabeza.goto(0,0)                        #Centra el objeto
 cabeza.direction = 'stop'               #Asigna direccion, en este caso estatico
 
+#Funciones
+
+#Definir cada movimiento
+def arriba():
+    cabeza.direction = 'up'
+def abajo():
+    cabeza.direction = 'down'
+def izquierda():
+    cabeza.direction = 'left'
+def derecha():
+    cabeza.direction = 'right'
+
+#Ejecuta el movimiento
+def movimiento():
+    if cabeza.direction == 'up':        #Si la direccion es hacia arriba
+        y =  cabeza.ycor()              #Obtiene la coordena Y
+        cabeza.sety(y + 20)             #Actualiza la posición Y
+
+    elif cabeza.direction == 'down':
+        y =  cabeza.ycor()              #Obtiene la coordena Y
+        cabeza.sety(y - 20)
+
+    elif cabeza.direction == 'left':
+        x =  cabeza.xcor()              #Obtiene la coordena X
+        cabeza.setx(x - 20)
+
+    elif cabeza.direction == 'right':
+        x =  cabeza.xcor()              #Obtiene la coordena X
+        cabeza.setx(x + 20)
+
+
+
+#Ciclo permanente
+while True:
+    window.update()                     #Actualizar la pantalla
+    movimiento()                        #Hace el respectivo movimiento
+    time.sleep(posponer)                #Hace que se posponga por el tiempo establecido

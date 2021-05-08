@@ -3,6 +3,8 @@ import time                             #Para obtenier el tiempo
 import random                           #Para usar numeros random
 
 posponer = 0.1
+puntaje = 0
+maxPuntaje = 0
 
 #Configuración
 window = turtle.Screen()                #Crea una ventana nueva
@@ -22,16 +24,33 @@ cabeza.direction = 'stop'               #Asigna direccion, en este caso estatico
 
 #Comida
 comida = turtle.Turtle()
-comida.speed(0)                         
+comida.speed(0)
 comida.shape('circle')
 comida.color('#D12D2D')
-comida.penup()                          
+comida.penup()
 comida.goto(0,100)
+
+#Texto para el puntaje
+texto = turtle.Turtle()
+texto.speed(0)
+texto.color('white')
+texto.penup()
+texto.hideturtle()
+texto.goto(0,260)
+texto.write('Puntaje:0     Máximo puntaje: 0', align='center', font=('Courier', 20, 'normal'))
 
 #Cuerpo de la serpiende
 cuerpo = []                             #Una lista que almacena cada segmento
 
 #Funciones
+
+def printText():
+
+    global  maxPuntaje
+    if puntaje>maxPuntaje:
+        maxPuntaje = puntaje
+    texto.clear()
+    texto.write(f'Puntaje:{puntaje}     Máximo puntaje: {maxPuntaje}', align='center', font=('Courier', 20, 'normal'))
 
 #Definir cada movimiento
 def arriba():
@@ -63,12 +82,15 @@ def movimiento():
 
 #Creacion del cuerpo
 def crearSegmento():
+    global puntaje
     segmento = turtle.Turtle()
     segmento.speed(0)
     segmento.shape('square')
     segmento.color('#8CDD83')
     segmento.penup()
     cuerpo.append(segmento)
+    puntaje += 1
+    printText()
 
 #Colisión con la comida
 def colisionComida():
@@ -96,6 +118,8 @@ def movCuerpo():
 
 #Colisión con el borde
 def borde():
+
+    global  puntaje
     if cabeza.xcor()<-280 or cabeza.xcor()>280 or cabeza.ycor()<-280 or cabeza.ycor()>280:
         time.sleep(0.5)
         cabeza.goto(0,0)
@@ -103,7 +127,22 @@ def borde():
         for segmento in cuerpo:         #Esconde los segmentos
             segmento.goto(1000,1000)
         cuerpo.clear()                  #Limpia la lista
+        puntaje = 0
+        printText()
 
+def mordida():
+
+    global puntaje
+    for segmento in cuerpo:
+        if cabeza.distance(segmento) < 20:
+            time.sleep(0.5)
+            cabeza.goto(0, 0)
+            cabeza.direction = 'stop'
+            for segmento in cuerpo:  # Esconde los segmentos
+                segmento.goto(1000, 1000)
+            cuerpo.clear()  # Limpia la lista
+            puntaje = 0
+            printText()
 
 #Conexion con teclado
 window.listen()                         #Está pendiente si se oprime una tecla
@@ -118,6 +157,7 @@ while True:
 
     borde()
     colisionComida()                    #Funcion que se ejecuta cuando toca la comida
+    mordida()
     movCuerpo()                         #Agrega movimiento al cuerpo
     movimiento()                        #Hace el respectivo movimiento con las teclas
 

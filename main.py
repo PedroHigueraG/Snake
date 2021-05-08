@@ -23,7 +23,7 @@ cabeza.direction = 'stop'               #Asigna direccion, en este caso estatico
 #Comida
 comida = turtle.Turtle()
 comida.speed(0)                         
-comida.shape('square')
+comida.shape('circle')
 comida.color('#D12D2D')
 comida.penup()                          
 comida.goto(0,100)
@@ -60,7 +60,7 @@ def movimiento():
 
 #Conexion con teclado
 window.listen()                         #Está pendiente si se oprime una tecla
-window.onkeypress(arriba,'Up')        #Ejecuta la función arriba() cuando detecta up
+window.onkeypress(arriba,'Up')          #Ejecuta la función arriba() cuando detecta up
 window.onkeypress(abajo,'Down')
 window.onkeypress(izquierda,'Left')
 window.onkeypress(derecha,'Right')

@@ -70,7 +70,7 @@ def crearSegmento():
     segmento.penup()
     cuerpo.append(segmento)
 
-#Colisión
+#Colisión con la comida
 def colisionComida():
     if cabeza.distance(comida)<20:      #Se mira la distancia entre la cabeza y la comida
         x = random.randint(-280,280)
@@ -82,7 +82,8 @@ def colisionComida():
 def movCuerpo():
     totalSeg = len(cuerpo)
 
-    #Cada elemento sigue al anterior, excepto el primero
+    #Cada elemento sigue al anterior
+    #Exepto el primero
     for segmento in range(totalSeg-1,0,-1):     #Va desde el ultimo segmento hasta el primero
         x = cuerpo[segmento-1].xcor()           #Detecta las coordenadas del elemento anterior
         y = cuerpo[segmento-1].ycor()
@@ -92,6 +93,16 @@ def movCuerpo():
         x = cabeza.xcor()
         y = cabeza.ycor()
         cuerpo[0].goto(x,y)
+
+#Colisión con el borde
+def borde():
+    if cabeza.xcor()<-280 or cabeza.xcor()>280 or cabeza.ycor()<-280 or cabeza.ycor()>280:
+        time.sleep(0.5)
+        cabeza.goto(0,0)
+        cabeza.direction = 'stop'
+        for segmento in cuerpo:         #Esconde los segmentos
+            segmento.goto(1000,1000)
+        cuerpo.clear()                  #Limpia la lista
 
 
 #Conexion con teclado
@@ -105,6 +116,7 @@ window.onkeypress(derecha,'Right')
 while True:
     window.update()                     #Actualizar la pantalla
 
+    borde()
     colisionComida()                    #Funcion que se ejecuta cuando toca la comida
     movCuerpo()                         #Agrega movimiento al cuerpo
     movimiento()                        #Hace el respectivo movimiento con las teclas

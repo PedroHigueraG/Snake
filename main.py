@@ -28,6 +28,9 @@ comida.color('#D12D2D')
 comida.penup()                          
 comida.goto(0,100)
 
+#Cuerpo de la serpiende
+cuerpo = []                             #Una lista que almacena cada segmento
+
 #Funciones
 
 #Definir cada movimiento
@@ -58,6 +61,39 @@ def movimiento():
         x =  cabeza.xcor()              #Obtiene la coordena X
         cabeza.setx(x + 20)
 
+#Creacion del cuerpo
+def crearSegmento():
+    segmento = turtle.Turtle()
+    segmento.speed(0)
+    segmento.shape('square')
+    segmento.color('#8CDD83')
+    segmento.penup()
+    cuerpo.append(segmento)
+
+#Colisión
+def colisionComida():
+    if cabeza.distance(comida)<20:      #Se mira la distancia entre la cabeza y la comida
+        x = random.randint(-280,280)
+        y = random.randint(-280, 280)
+        comida.goto(x,y)                #Se actualiza la posición de la comida a un random
+        crearSegmento()
+
+#Mover el cuerpo
+def movCuerpo():
+    totalSeg = len(cuerpo)
+
+    #Cada elemento sigue al anterior, excepto el primero
+    for segmento in range(totalSeg-1,0,-1):     #Va desde el ultimo segmento hasta el primero
+        x = cuerpo[segmento-1].xcor()           #Detecta las coordenadas del elemento anterior
+        y = cuerpo[segmento-1].ycor()
+        cuerpo[segmento].goto(x,y)              #Se dirige a la posición del elemento anterior
+
+    if totalSeg >0:                             #Debe haber almenos un elemento para que este siga a la cabeza
+        x = cabeza.xcor()
+        y = cabeza.ycor()
+        cuerpo[0].goto(x,y)
+
+
 #Conexion con teclado
 window.listen()                         #Está pendiente si se oprime una tecla
 window.onkeypress(arriba,'Up')          #Ejecuta la función arriba() cuando detecta up
@@ -69,10 +105,8 @@ window.onkeypress(derecha,'Right')
 while True:
     window.update()                     #Actualizar la pantalla
 
-    if cabeza.distance(comida)<20:      #Se mira la distancia entre la cabeza y la comida
-        x = random.randint(-280,280)
-        y = random.randint(-280, 280)
-        comida.goto(x,y)                #Se actualiza la posición de la comida a un random
+    colisionComida()                    #Funcion que se ejecuta cuando toca la comida
+    movCuerpo()                         #Agrega movimiento al cuerpo
+    movimiento()                        #Hace el respectivo movimiento con las teclas
 
-    movimiento()                        #Hace el respectivo movimiento
     time.sleep(posponer)                #Hace que se posponga por el tiempo establecido

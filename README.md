@@ -12,3 +12,8 @@ El clásico juego de la serpiente, entre más coma manzanas más crece, desarrol
 - Importar el repositorio
 - Ejecutar el archivo main.py
 - Disfrutar el juego
+
+## Prueba de juego
+<p>
+  <img src="assets/captura.png" />
+</p>
